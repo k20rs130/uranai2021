@@ -22,21 +22,28 @@
 
     function uranai() {
       var Uranai = ncmb.DataStore("Uranai");
-    // 取得処理
     Uranai.fetchAll()
            .then(function(objects){
-             /* 取得成功時の処理 */
-             // データ数内で乱数を作成
              var random = Math.floor(Math.random()*objects.length);
-             // 乱数番目のデータ
              var object = objects[random];
-             // 「result」フィールドの値を取得
              var result= object.get("result");
-             // 画面に結果を表示
              document.getElementById("result").innerText = result;
           })
           .catch(function(error){
-             /* 取得失敗時の処理 */
+             alert("Error: " + error.code);
+          });
+    }
+
+    function item() {
+      var Item = ncmb.DataStore("Item");
+    Item.fetchAll()
+           .then(function(objects){
+             var random = Math.floor(Math.random()*objects.length);
+             var object = objects[random];
+             var ITEM= object.get("ITEM");
+             document.getElementById("ITEM").innerText = ITEM;
+          })
+          .catch(function(error){
              alert("Error: " + error.code);
           });
     }
@@ -45,12 +52,21 @@
 
 
 <body>
-  <textarea id="message">テキストエリア</textarea>
-  <button onclick="pushButton();">ボタン</button>
+  　　☆☆今日の占い☆☆
+  </br>
+  <textarea id="message"></textarea>
+  </br>
+  <button onclick="pushButton();">メモ</button>
   </br>
   <button onclick="uranai();">今日の運気度</button>
   </br>
-  あなたの今日の運勢は：<span id="result"></span>
+  <button onclick="item();">ラッキーアイテム</button>
+  </br>
+  あなたの今日の運勢は：　　<span id="result"></span>
+  </br>
+  ラッキーアイテムは：　　<span id="ITEM"></span>
+  </br>
+  今日も元気にいこう！！
 </body>
 
 </html>
