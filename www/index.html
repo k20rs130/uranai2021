@@ -8,19 +8,45 @@
   <script src="components/loader.js"></script>
   <link rel="stylesheet" href="components/loader.css">
   <link rel="stylesheet" href="css/style.css">
+  <script src="keys.js"></script>
   <script>
     var ncmb = new NCMB(applicationKey, clientKey);
-    function uranai() {
-      var result = "最高!!";
 
-      document.getElementById("result").innerText = result;
+    function pushButton() {
+      var message = document.getElementById("message").value;
+      alert(message);
+      var MessageClass = ncmb.DataStore("MessageClass");
+      var messageClass = new MessageClass();
+      messageClass.set("message", message).save();
+    }
+
+    function uranai() {
+      var Uranai = ncmb.DataStore("Uranai");
+    // 取得処理
+    Uranai.fetchAll()
+           .then(function(objects){
+             /* 取得成功時の処理 */
+             // データ数内で乱数を作成
+             var random = Math.floor(Math.random()*objects.length);
+             // 乱数番目のデータ
+             var object = objects[random];
+             // 「result」フィールドの値を取得
+             var result= object.get("result");
+             // 画面に結果を表示
+             document.getElementById("result").innerText = result;
+          })
+          .catch(function(error){
+             /* 取得失敗時の処理 */
+             alert("Error: " + error.code);
+          });
     }
   </script>
 </head>
 
 
 <body>
-  占い
+  <textarea id="message">テキストエリア</textarea>
+  <button onclick="pushButton();">ボタン</button>
   </br>
   <button onclick="uranai();">今日の運気度</button>
   </br>
